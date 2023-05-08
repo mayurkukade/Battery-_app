@@ -1,11 +1,38 @@
-
-
+import { useState } from "react";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const submitHandler = (e)=>{
+e.preventDefault()
+console.log(email,pwd)
+  }
   return (
-    <div>
+    <section>
       <h1>Login</h1>
-    </div>
-  )
-}
+      <form onSubmit={submitHandler}>
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          autoComplete="off"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          required
+        />
+        <label htmlFor="password">Password</label>
+        <input
+        type='password'
+        id="password"
+        autoComplete='off'
+        onChange={(e)=>setPwd(e.target.value)}
+        value={pwd}
+        required
+        
+        />
+        <button >Submit</button>
+      </form>
+    </section>
+  );
+};
 
-export default Login
+export default Login;
