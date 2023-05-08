@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 
 import axios from "axios";
 import "./register.css";
-
+import { FcGoogle } from 'react-icons/fc';
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
@@ -23,7 +23,7 @@ const Register = () => {
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
 
-  const [email,setEmail] = useState()
+  const [email, setEmail] = useState();
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -47,7 +47,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user, pwd,email);
+    console.log(user, pwd, email);
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(user);
     const v2 = PWD_REGEX.test(pwd);
@@ -215,6 +215,8 @@ const Register = () => {
               Sign Up
             </button>
           </form>
+          <h4>OR</h4>
+          <button><FcGoogle/></button>
           <p>
             Already registered?
             <br />
@@ -222,7 +224,6 @@ const Register = () => {
               {/*put router link here*/}
               <a href="#">Sign In</a>
             </span>
-            <button>Google</button>
           </p>
         </section>
       )}
