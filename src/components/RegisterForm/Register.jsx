@@ -2,14 +2,16 @@ import { useRef, useState, useEffect } from "react";
 
 import axios from "axios";
 import "./register.css";
-import { FcGoogle } from 'react-icons/fc';
+import jwt_decode from 'jwt-decode'
+//import { FcGoogle } from 'react-icons/fc';
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
-
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
+
+  
 
   const [user, setUser] = useState("");
   const [validName, setValidName] = useState(false);
@@ -27,6 +29,8 @@ const Register = () => {
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+
+  
 
   useEffect(() => {
     userRef.current.focus();
@@ -84,6 +88,27 @@ const Register = () => {
       errRef.current.focus();
     }
   };
+
+  function handleCallbackResponse(response){
+    console.log('Ended JWT Id token:' + response.credential);
+    var userObject = jwt_decode(response.credential)
+    console.log(userObject)
+    setUser(userObject)
+  }
+ 
+useEffect(()=>{
+  google.accounts.id.initialize({
+    client_id:"854208234654-kc0p94c1rrumg1mgllpkq1ses2992mp8.apps.googleusercontent.com",
+    callback: handleCallbackResponse
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById('signInDiv'),
+    {
+      theme:'outline' , size:'large'
+    }
+  )
+},[])
 
   return (
     <>
@@ -216,7 +241,12 @@ const Register = () => {
             </button>
           </form>
           <h4>OR</h4>
-          <button><FcGoogle/></button>
+     <div className='googleButton'>
+      <div  id='signInDiv'>
+
+      </div>
+
+     </div>
           <p>
             Already registered?
             <br />
@@ -225,6 +255,7 @@ const Register = () => {
               <a href="#">Sign In</a>
             </span>
           </p>
+        
         </section>
       )}
     </>

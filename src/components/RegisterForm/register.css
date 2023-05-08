@@ -38,7 +38,7 @@ form {
     flex-direction: column;
     justify-content: space-evenly;
     flex-grow: 1;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 a, a:visited {
@@ -51,14 +51,15 @@ input[type="email"],
 button,
 textarea {
   font-family: 'Nunito', sans-serif;
-  font-size: 22px;
+  font-size: 15px;
   padding: 0.25rem;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
 }
 
 label,
 button {
-  margin-top: 1rem;
+  margin-top: 0.8rem;
+ 
 }
 
 button {
@@ -111,4 +112,9 @@ button {
 }
 h4{
     text-align: center;
+}
+.googleButton{
+    display: flex;
+    justify-content: center;
+    
 }
