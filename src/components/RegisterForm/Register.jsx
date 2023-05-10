@@ -1,12 +1,12 @@
 import { useRef, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./register.css";
 import jwt_decode from "jwt-decode";
 //import { FcGoogle } from 'react-icons/fc';
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = "/register";
+const REGISTER_URL = "http://localhost:8000/api/v1/auth/signup";
 const Register = () => {
   const userRef = useRef();
   const errRef = useRef();
@@ -28,7 +28,7 @@ const Register = () => {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
-  
+  const navigate = useNavigate()
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -59,16 +59,17 @@ const Register = () => {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ user, pwd }),
+        JSON.stringify({ username:user,password:pwd,email:email,passwordConfirm:matchPwd }),
         {
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+         
         }
       );
       console.log(response?.data);
       console.log(response?.accessToken);
       console.log(JSON.stringify(response));
       setSuccess(true);
+      navigate('/home')
       //clear state and controlled inputs
       //need value attrib on inputs for this
       setUser("");
@@ -89,8 +90,8 @@ const Register = () => {
   function handleCallbackResponse(response) {
     console.log("Ended JWT Id token:" + response.credential);
     var userObject = jwt_decode(response.credential);
-    console.log(userObject.email_verified);
-  
+    console.log(userObject);
+    navigate('/home')
     
   }
 
@@ -110,13 +111,7 @@ const Register = () => {
   return (
     <>
       <section>
-        <p
-          ref={errRef}
-          className={errMsg ? "errmsg" : "offscreen"}
-          aria-live="assertive"
-        >
-          {errMsg}
-        </p>
+      
         <h1>Register</h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="username">Username:</label>
@@ -239,7 +234,7 @@ const Register = () => {
             <a href="/login">Sign In</a>
           </span>
         </p>
-       <Link to={'/home'}>Next</Link>
+       
       </section>
     </>
   );
