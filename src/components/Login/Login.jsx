@@ -26,13 +26,14 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        console.log(user,pwd)
 
         try {
-            const userData = await login({ user, pwd }).unwrap()
+            const userData = await login({email: user,password: pwd }).unwrap()
             dispatch(setCredentials({ ...userData, user }))
             setUser('')
             setPwd('')
-            navigate('/welcome')
+            navigate('/home')
         } catch (err) {
             if (!err?.originalStatus) {
                 // isLoading: true until timeout occurs
